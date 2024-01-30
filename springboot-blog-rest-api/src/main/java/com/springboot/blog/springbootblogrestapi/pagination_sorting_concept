@@ -1,0 +1,11 @@
+pagination :
+1)pagination and sorting is mostly required when we are displaying domain data in tabular formar in UI
+2)pagination consists of 2 files->
+page size
+page no
+3)sorting can be done on multiple files in table
+4)it is optional hencecan be part of request URL as query parameters
+
+findAll(pagable) findAll(Sort)
+
+this class is extended by JpaRespository so we can directly use its methods

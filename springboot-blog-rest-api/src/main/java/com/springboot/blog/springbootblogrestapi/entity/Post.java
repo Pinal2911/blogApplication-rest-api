@@ -1,9 +1,7 @@
 package com.springboot.blog.springbootblogrestapi.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +9,8 @@ import java.util.Set;
 //data-> it is annotation used to automatically define getters and setter
 //allargscontructor -> In Lombok, the @AllArgsConstructor annotation is used to automatically generate a constructor that includes all non-static, non-transient fields of the class as parameters.
 //noargsconstructor -> In Lombok, the @NoArgsConstructor annotation is used to automatically generate a no-args constructor for a class.
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 //used to denote class as table

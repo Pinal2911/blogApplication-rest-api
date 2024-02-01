@@ -8,6 +8,8 @@ import com.springboot.blog.springbootblogrestapi.payload.CommentDto;
 import com.springboot.blog.springbootblogrestapi.repository.CommentRepository;
 import com.springboot.blog.springbootblogrestapi.repository.PostRepository;
 import com.springboot.blog.springbootblogrestapi.service.CommentService;
+import org.modelmapper.ModelMapper;
+import org.springframework.boot.Banner;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +21,12 @@ public class CommentServiceImpl implements CommentService {
 
 
     private CommentRepository commentRepository;
+    private ModelMapper modelMapper;
     private PostRepository postRepository;
-    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository){
+    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository, ModelMapper modelMapper){
         this.commentRepository=commentRepository;
         this.postRepository=postRepository;
+        this.modelMapper=modelMapper;
     }
     @Override
     public CommentDto createComment(long postId, CommentDto commentDto) {
@@ -89,17 +93,21 @@ public class CommentServiceImpl implements CommentService {
 
     //maptoCommentDTO
     private CommentDto mapToDTO(Comment comment){
-        CommentDto commentDto= new CommentDto();
-        commentDto.setId(comment.getId());
-        commentDto.setBody(comment.getBody());
-        commentDto.setName(comment.getName());
-        commentDto.setEmail(comment.getEmail());
+
+        CommentDto commentDto= modelMapper.map(comment,CommentDto.class);
+
+        //below is manual process to convert commment to commentDTO
+//        commentDto.setId(comment.getId());
+//        commentDto.setBody(comment.getBody());
+//        commentDto.setName(comment.getName());
+//        commentDto.setEmail(comment.getEmail());
         return commentDto;
     }
 
     //map to comment entity (comment dto to comment entity conversion
     private Comment mapToEntity(CommentDto commentDto){
-        Comment comment=new Comment();
+        Comment comment=modelMapper.map(commentDto,Comment.class);
+        //below is the manual process to convert commentDTO to commment
         comment.setBody(commentDto.getBody());
         comment.setEmail(commentDto.getEmail());
         comment.setName(commentDto.getName());

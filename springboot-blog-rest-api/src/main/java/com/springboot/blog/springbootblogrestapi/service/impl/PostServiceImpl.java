@@ -7,6 +7,7 @@ import com.springboot.blog.springbootblogrestapi.payload.PostResponse;
 import com.springboot.blog.springbootblogrestapi.repository.PostRepository;
 import com.springboot.blog.springbootblogrestapi.service.PostService;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +23,10 @@ import java.util.stream.Collectors;
 
 public class PostServiceImpl implements PostService {
     private PostRepository postRepository;
-    public PostServiceImpl(PostRepository postRepository){
+    private ModelMapper modelMapper;
+    public PostServiceImpl(PostRepository postRepository,ModelMapper modelMapper){
         this.postRepository=postRepository;
+        this.modelMapper=modelMapper;
     }
 
     @Override
@@ -89,19 +92,28 @@ public class PostServiceImpl implements PostService {
     }
 
     private PostDto mapToDTO(Post post){
-        PostDto postDto=new PostDto();
-        postDto.setId(post.getId());
-        postDto.setDescription(post.getDescription());
-        postDto.setContent(post.getContent());
-        postDto.setTitle(post.getTitle());
+        //this is direct method via model mapper to convert from post to postdto
+        PostDto postDto=modelMapper.map(post,PostDto.class);
+        //below is themanual process to convert post to postdto
+//        postDto.setId(post.getId());
+//        postDto.setDescription(post.getDescription());
+//        postDto.setContent(post.getContent());
+//        postDto.setTitle(post.getTitle());
         return postDto;
     }
 
     private Post mapToEntity(PostDto postDto){
-        Post post=new Post();
-        post.setContent(postDto.getContent());
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
+        //thisis direct method to convert from postdto to post
+        //source - > postdto
+        //dest -> post
+
+
+        Post post=modelMapper.map(postDto,Post.class);
+
+        //below is manual process to convert postdto to post
+//        post.setContent(postDto.getContent());
+//        post.setTitle(postDto.getTitle());
+//        post.setDescription(postDto.getDescription());
         return post;
     }
 }

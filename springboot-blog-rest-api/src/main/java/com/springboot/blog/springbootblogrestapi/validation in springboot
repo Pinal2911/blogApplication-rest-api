@@ -1,0 +1,15 @@
+1)@NotNull validates that the annotated property value is not null
+2)@Size validates that the annotated property value has a size between min and max attr, can be applied to string,map,array
+3)@Min validates that the annotated property has a value no smaller than the value attr
+4)@Max validates that the annotated prop has a value no larger than the value attr
+5)@Email validated that the annotated porp is a valid email address
+6)@NotEmpty validates that prop is not null or empty; can be applied to string,collection,map or array values
+7)@NotBlank can be applied only to text values and validates that the prop is not null or whitespace
+
+
+spring boot uses hibernate validator as a validator internally
+dependency used:
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-validation</artifactId>
+</dependency>

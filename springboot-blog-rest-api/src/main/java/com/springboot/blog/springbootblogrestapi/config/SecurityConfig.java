@@ -1,9 +1,12 @@
 package com.springboot.blog.springbootblogrestapi.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -23,11 +26,27 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    //encrypt the password using BCrypt
+    private UserDetailsService userDetailsService;
+
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+
     @Bean
     public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+    //database authentication method (DAO authentication
+    // )
+
+
+    //encrypt the password using BCrypt
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf((csrf) -> csrf.disable())
@@ -43,22 +62,24 @@ public class SecurityConfig {
         return  http.build();
     }
     //defining various user roles for application
-    @Bean
-    public UserDetailsService userDetailsService(){
-        UserDetails pinal= User.builder()
-                .username("pinal")
-                .password(passwordEncoder().encode("pinal"))
-                .roles("USER")
-                .build();
 
-        UserDetails admin=User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(pinal,admin);
-    }
+   //basic authentication method
+//    @Bean
+//    public UserDetailsService userDetailsService(){
+//        UserDetails pinal= User.builder()
+//                .username("pinal")
+//                .password(passwordEncoder().encode("pinal"))
+//                .roles("USER")
+//                .build();
+//
+//        UserDetails admin=User.builder()
+//                .username("admin")
+//                .password(passwordEncoder().encode("admin"))
+//                .roles("ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(pinal,admin);
+//    }
 
 
 }

@@ -24,8 +24,9 @@ public class PostController {
     //create a new post rest api
     //pre authorizing the request and only admin has the access to this request
 
-    @PostMapping
+
     @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
     public ResponseEntity<PostDto> createPost(@Valid  @RequestBody PostDto postDto){
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
@@ -60,7 +61,7 @@ public class PostController {
     }
 
     //delete the post by id rest api
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable(name="id")long id){
         postService.deleteById(id);

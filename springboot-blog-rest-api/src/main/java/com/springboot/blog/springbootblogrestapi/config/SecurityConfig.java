@@ -49,7 +49,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.csrf((csrf) -> csrf.disable())
+        http.csrf(csrf -> csrf.disable())
                 //using below line will impose authentication to all requests
                 //.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
                 //using below line will impose authentication to all requests except GET (put,POST,DELETE -> will require authentication)
@@ -57,8 +57,7 @@ public class SecurityConfig {
                         authorize.requestMatchers(HttpMethod.GET,"/api/**")
                                 .permitAll()
                                 .anyRequest()
-                                .authenticated())
-                .httpBasic(Customizer.withDefaults());
+                                .authenticated()).httpBasic(Customizer.withDefaults());
         return  http.build();
     }
     //defining various user roles for application

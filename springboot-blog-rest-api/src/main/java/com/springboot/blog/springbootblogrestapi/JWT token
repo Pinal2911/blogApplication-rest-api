@@ -1,0 +1,29 @@
+JWT is a standard that is mostly used for securing REST APIs
+bestway to communicate securely between client and server
+JWT follows stateless authentication mechanism
+
+USE OF JSON WEB TOKEN
+1)authorization:
+once user is logged in each subsequent req will include the JWT allowig the user to access resources that are permitted with that token
+2)info exchange:
+info between client and server
+
+
+JSON Web token structure:
+
+header+payload+signature
+
+xxxxx.yyyyy.zzzzz
+
+signature=algo(base64UrlEncode(header)+"."+base64UrlEncode(payload),secret)
+
+
+jwt token setup/developemnt steps:
+1)add JWT related maven dependencies
+2)create JWTAuthenticationEntryPoint
+3)add jwt properties in application prop file
+4) create jwttokenprovider-utility class
+5)create jwtauthenticcationFilter
+6)create jwtAuthResponse DTO
+7)configure JWT in spring security
+8)change login/signin REST API to return JWT token

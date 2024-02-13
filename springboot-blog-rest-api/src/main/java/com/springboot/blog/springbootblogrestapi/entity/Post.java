@@ -36,4 +36,11 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<Comment> comments=new HashSet<>();
+
+
+    //many to one because many posts will be for one category
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

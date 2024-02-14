@@ -1,8 +1,11 @@
 package com.springboot.blog.springbootblogrestapi.controller;
 
+import com.springboot.blog.springbootblogrestapi.entity.Category;
 import com.springboot.blog.springbootblogrestapi.entity.Post;
 import com.springboot.blog.springbootblogrestapi.payload.PostDto;
 import com.springboot.blog.springbootblogrestapi.payload.PostResponse;
+import com.springboot.blog.springbootblogrestapi.repository.CategoryRepository;
+import com.springboot.blog.springbootblogrestapi.service.CategoryService;
 import com.springboot.blog.springbootblogrestapi.service.PostService;
 import com.springboot.blog.springbootblogrestapi.utils.AppConstants;
 import jakarta.validation.Valid;
@@ -18,8 +21,10 @@ import java.util.List;
 public class PostController {
 
     private PostService postService;
+
     public PostController(PostService postService){
         this.postService=postService;
+
     }
     //create a new post rest api
     //pre authorizing the request and only admin has the access to this request
@@ -28,6 +33,7 @@ public class PostController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PostDto> createPost(@Valid  @RequestBody PostDto postDto){
+
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
@@ -66,5 +72,11 @@ public class PostController {
     public ResponseEntity<String> deletePost(@PathVariable(name="id")long id){
         postService.deleteById(id);
         return new ResponseEntity("post deleted successfully",HttpStatus.OK);
+    }
+    //url: http://localhost:8080/api/posts/category/3
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable("id") Long categoryId){
+        List<PostDto> postDtos=postService.getPostsByCategory(categoryId);
+        return ResponseEntity.ok(postDtos);
     }
 }
